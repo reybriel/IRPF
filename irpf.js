@@ -1,16 +1,11 @@
+// TYPES
+
 class Tier {
     constructor(value, perc) {
         this.value = value;
         this.calc = (base) => base * perc / 100;
     }
 }
-
-let INSS_TIERS = [
-    new Tier(1100.00,  7.5),
-    new Tier(2203.48,  9.0),
-    new Tier(3305.22, 12.0),
-    new Tier(6433.57, 14.0)
-];
 
 class TierWithDeduction {
     constructor(value, perc, deduc) {
@@ -20,6 +15,15 @@ class TierWithDeduction {
         this.calc = (base) => tier.calc(base) - deduc;
     }
 }
+
+// CONSTANTS
+
+let INSS_TIERS = [
+    new Tier(1100.00,  7.5),
+    new Tier(2203.48,  9.0),
+    new Tier(3305.22, 12.0),
+    new Tier(6433.57, 14.0)
+];
 
 let IRPF_TIERS = [
     new TierWithDeduction(   0.00,  0.0,   0.00),
@@ -31,6 +35,8 @@ let IRPF_TIERS = [
 
 let DEDUC_DEPS = 189.59;
 let DEDUC_PENS = 200.00;
+
+// FUNCTIONS
 
 function round(num) {
     return Math.round((num + Number.EPSILON) * 100) / 100;
@@ -68,6 +74,8 @@ function calcIRPF(salary, deps, pens) {
 
     return round(tier.calc(base));
 }
+
+// SCRIPT
 
 [500, 1000, 2000, 3000, 5000, 10000, 15000].forEach((salary) => {
     let inss = calcINSS(salary);
