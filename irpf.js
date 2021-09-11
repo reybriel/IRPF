@@ -65,7 +65,7 @@ class Consultation {
     base() {
         let base = this.salary - this.inss() - Consultation.DEDUC_DEPS * this.deps - Consultation.DEDUC_PENS * this.pens;
         if (base <= 0) return 0;
-        return base;
+        return round(base);
     }
 
     irpf() {
@@ -83,7 +83,7 @@ class Consultation {
     }
 
     balance() {
-        return this.salary - this.inss() - this.irpf();
+        return round(this.salary - this.inss() - this.irpf());
     }
 }
 
@@ -119,3 +119,4 @@ console.log('Base de cálculo = R$ ' + consultation.base());
 console.log('INSS = R$ ' + consultation.inss());
 console.log('IRPF = R$ ' + consultation.irpf());
 console.log('Saldo = R$ ' + consultation.balance());
+console.log('--------------');
