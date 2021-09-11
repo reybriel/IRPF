@@ -63,12 +63,13 @@ class Consultation {
     }
 
     base() {
-        return this.salary - this.inss() - Consultation.DEDUC_DEPS * this.deps - Consultation.DEDUC_PENS * this.pens;
+        let base = this.salary - this.inss() - Consultation.DEDUC_DEPS * this.deps - Consultation.DEDUC_PENS * this.pens;
+        if (base <= 0) return 0;
+        return base;
     }
 
     irpf() {
         let base = this.base();
-        if (base <= 0) return 0;
 
         let tier = Consultation.IRPF_TIERS.find((tier, index, arr) => {
             if (index == arr.length - 1) return true;
@@ -91,6 +92,7 @@ class Consultation {
 
     console.log('--------------------');
     console.log('Bruto = R$ ' + salary);
+    console.log('Base  = R$ ' + consultation.base());
     console.log('INSS  = R$ ' + consultation.inss());
     console.log('IRPF  = R$ ' + consultation.irpf());
     console.log('Saldo = R$ ' + consultation.balance());
