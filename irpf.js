@@ -12,6 +12,30 @@ let INSS_TIERS = [
     new Tier(6433.57, 14.0)
 ];
 
+class TierWithDeduction {
+    constructor(value, perc, deduc) {
+        this.value = value;
+
+        let tier = new Tier(value, perc);
+        this.calc = (base) => tier.calc(base) - deduc;
+    }
+}
+
+let IRPF_TIERS = [
+    new TierWithDeduction(   0.00,  0.0,   0.00),
+    new TierWithDeduction(1903.99,  7.5, 142.80),
+    new TierWithDeduction(2826.66, 15.0, 354.80),
+    new TierWithDeduction(3751.06, 22.5, 636.13),
+    new TierWithDeduction(4664.69, 27.5, 869.36)
+];
+
+let DEDUC_DEPS = 189.59;
+let DEDUC_PENS = 200.00;
+
+function round(num) {
+    return Math.round((num + Number.EPSILON) * 100) / 100;
+}
+
 function calcINSS(salary) {
     let result = INSS_TIERS.map((tier, index, arr) => {
         var prev = 0;
@@ -27,14 +51,32 @@ function calcINSS(salary) {
         return tier.calc(min - prev);
     }).reduce((prev, curr) => prev + curr);
 
-    return Math.round((result + Number.EPSILON) * 100) / 100;
+    return round(result);
 }
 
-function irpf(salary, dependants, pensions) {
+function calcIRPF(salary, deps, pens) {
+    let base = salary - calcINSS(salary) - DEDUC_DEPS * deps - DEDUC_PENS * pens;
+    if (base <= 0) return 0;
 
+    let tier = IRPF_TIERS.find((tier, index, arr) => {
+        if (index == arr.length - 1) return true;
+        
+        let next = arr[index + 1].value;
+
+        return base >= tier.value && base < next;
+    });
+
+    return round(tier.calc(base));
 }
 
-[500, 1000, 2000, 3000, 5000, 10000].forEach((salary) => {
+[500, 1000, 2000, 3000, 5000, 10000, 15000].forEach((salary) => {
     let inss = calcINSS(salary);
-    console.log(inss);
+    let irpf = calcIRPF(salary, 3, 0);
+    let balance = salary - inss - irpf;
+
+    console.log('--------------------');
+    console.log('Bruto = R$ ' + salary);
+    console.log('INSS  = R$ ' + inss);
+    console.log('IRPF  = R$ ' + irpf);
+    console.log('Saldo = R$ ' + balance);
 });
