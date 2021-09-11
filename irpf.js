@@ -87,13 +87,35 @@ class Consultation {
     }
 }
 
-[500, 1000, 2000, 3000, 5000, 10000, 15000].forEach((salary) => {
-    let consultation = new Consultation(salary, 3, 0);
+let salary = process.argv[2];
+let deps = process.argv[3];
+let pens = process.argv[4];
 
-    console.log('--------------------');
-    console.log('Bruto = R$ ' + salary);
-    console.log('Base  = R$ ' + consultation.base());
-    console.log('INSS  = R$ ' + consultation.inss());
-    console.log('IRPF  = R$ ' + consultation.irpf());
-    console.log('Saldo = R$ ' + consultation.balance());
-});
+if (isNaN(salary)) {
+    console.log('The first argument has to be a number.');
+    process.exit(1);
+}
+
+if (isNaN(deps)) {
+    console.log('The second argument has to be a number.');
+    process.exit(1);
+}
+
+if (isNaN(pens)) {
+    console.log('The third argument has to be a number.');
+    process.exit(1);
+}
+
+let consultation = new Consultation(salary, deps, pens);
+
+console.log('--- INPUT ----');
+console.log('Salário bruto = R$ ' + salary);
+console.log('Dependentes = ' + deps);
+console.log('Pensões = ' + pens);
+console.log('');
+
+console.log('--- OUTPUT ---');
+console.log('Base de cálculo = R$ ' + consultation.base());
+console.log('INSS = R$ ' + consultation.inss());
+console.log('IRPF = R$ ' + consultation.irpf());
+console.log('Saldo = R$ ' + consultation.balance());
