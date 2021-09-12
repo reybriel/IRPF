@@ -45,36 +45,41 @@ class Consultation {
     }
 
     inss() {
-        let result = Consultation.INSS_TIERS.map((tier, index, arr) => {
+        let sum = (val1, val2) => val1 + val2;
+        let result = Consultation.INSS_TIERS.map((tier, index, all) => {
             var prev = 0;
     
-            if (index > 0) prev = arr[index - 1].value;
+            if (index > 0)
+                prev = all[index - 1].value;
     
-            if (this.salary < prev) return 0;
-    
-            var min = tier.value;
-    
-            if (this.salary < tier.value) min = this.salary;
-    
-            return tier.calc(min - prev);
-        }).reduce((prev, curr) => prev + curr);
+            if (this.salary < prev)
+                return 0;
+
+            let base = Math.min(tier.value, this.salary);
+
+            return tier.calc(base - prev);
+        }).reduce(sum);
     
         return round(result);
     }
 
     base() {
         let base = this.salary - this.inss() - Consultation.DEDUC_DEPS * this.deps - Consultation.DEDUC_PENS * this.pens;
-        if (base <= 0) return 0;
+
+        if (base <= 0)
+            return 0;
+
         return round(base);
     }
 
     irpf() {
         let base = this.base();
 
-        let tier = Consultation.IRPF_TIERS.find((tier, index, arr) => {
-            if (index == arr.length - 1) return true;
+        let tier = Consultation.IRPF_TIERS.find((tier, index, all) => {
+            if (index == all.length - 1)
+                return true;
             
-            let next = arr[index + 1].value;
+            let next = all[index + 1].value;
 
             return base >= tier.value && base < next;
         });
