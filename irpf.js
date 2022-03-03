@@ -21,10 +21,10 @@ function round(num) {
 class Consultation {
 
     static INSS_TIERS = [
-        new Tier(1100.00,  7.5),
-        new Tier(2203.48,  9.0),
-        new Tier(3305.22, 12.0),
-        new Tier(6433.57, 14.0)
+        new Tier(1212.00,  7.5),
+        new Tier(2427.35,  9.0),
+        new Tier(3641.03, 12.0),
+        new Tier(7087.22, 14.0)
     ];
     
     static IRPF_TIERS = [
