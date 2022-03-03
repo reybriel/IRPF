@@ -46,19 +46,20 @@ class Consultation {
 
     inss() {
         const sum = (val1, val2) => val1 + val2;
-        const result = Consultation.INSS_TIERS.map((tier, index, all) => {
-            var prev = 0;
+        const factor = (tier, index, all) => {
+          var prev = 0;
     
-            if (index > 0)
-                prev = all[index - 1].value;
-    
-            if (this.salary < prev)
-                return 0;
+          if (index > 0) prev = all[index - 1].value;
+  
+          if (this.salary < prev) return 0;
 
-            const base = Math.min(tier.value, this.salary);
+          const base = Math.min(tier.value, this.salary);
+          return tier.calc(base - prev);
+        };
 
-            return tier.calc(base - prev);
-        }).reduce(sum);
+        const result = Consultation.INSS_TIERS
+          .map(factor)
+          .reduce(sum);
     
         return round(result);
     }
@@ -66,8 +67,7 @@ class Consultation {
     base() {
         const base = this.salary - this.inss() - Consultation.DEDUC_DEPS * this.deps - Consultation.DEDUC_PENS * this.pens;
 
-        if (base <= 0)
-            return 0;
+        if (base <= 0) return 0;
 
         return round(base);
     }
