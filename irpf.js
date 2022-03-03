@@ -9,7 +9,7 @@ class TierWithDeduction {
     constructor(value, perc, deduc) {
         this.value = value;
 
-        let tier = new Tier(value, perc);
+        const tier = new Tier(value, perc);
         this.calc = (base) => tier.calc(base) - deduc;
     }
 }
@@ -45,8 +45,8 @@ class Consultation {
     }
 
     inss() {
-        let sum = (val1, val2) => val1 + val2;
-        let result = Consultation.INSS_TIERS.map((tier, index, all) => {
+        const sum = (val1, val2) => val1 + val2;
+        const result = Consultation.INSS_TIERS.map((tier, index, all) => {
             var prev = 0;
     
             if (index > 0)
@@ -55,7 +55,7 @@ class Consultation {
             if (this.salary < prev)
                 return 0;
 
-            let base = Math.min(tier.value, this.salary);
+            const base = Math.min(tier.value, this.salary);
 
             return tier.calc(base - prev);
         }).reduce(sum);
@@ -64,7 +64,7 @@ class Consultation {
     }
 
     base() {
-        let base = this.salary - this.inss() - Consultation.DEDUC_DEPS * this.deps - Consultation.DEDUC_PENS * this.pens;
+        const base = this.salary - this.inss() - Consultation.DEDUC_DEPS * this.deps - Consultation.DEDUC_PENS * this.pens;
 
         if (base <= 0)
             return 0;
@@ -73,13 +73,13 @@ class Consultation {
     }
 
     irpf() {
-        let base = this.base();
+        const base = this.base();
 
-        let tier = Consultation.IRPF_TIERS.find((tier, index, all) => {
+        const tier = Consultation.IRPF_TIERS.find((tier, index, all) => {
             if (index == all.length - 1)
                 return true;
             
-            let next = all[index + 1].value;
+            const next = all[index + 1].value;
 
             return base >= tier.value && base < next;
         });
@@ -92,9 +92,9 @@ class Consultation {
     }
 }
 
-let salary = process.argv[2];
-let deps = process.argv[3];
-let pens = process.argv[4];
+const salary = process.argv[2];
+const deps = process.argv[3];
+const pens = process.argv[4];
 
 if (isNaN(salary)) {
     console.log('The first argument has to be a number.');
@@ -111,7 +111,7 @@ if (isNaN(pens)) {
     process.exit(1);
 }
 
-let consultation = new Consultation(salary, deps, pens);
+const consultation = new Consultation(salary, deps, pens);
 
 console.log('--- INPUT ----');
 console.log('Salário bruto = R$ ' + salary);
