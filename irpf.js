@@ -36,7 +36,6 @@ class Consultation {
     ];
     
     static DEDUC_DEPS = 189.59;
-    static DEDUC_PENS = 200.00;
 
     constructor(salary, deps, pens) {
         this.salary = salary;
@@ -65,7 +64,7 @@ class Consultation {
     }
 
     base() {
-        const base = this.salary - this.inss() - Consultation.DEDUC_DEPS * this.deps - Consultation.DEDUC_PENS * this.pens;
+        const base = this.salary - this.inss() - Consultation.DEDUC_DEPS * this.deps * this.pens;
 
         if (base <= 0) return 0;
 
@@ -115,8 +114,8 @@ const consultation = new Consultation(salary, deps, pens);
 
 console.log('--- INPUT ----');
 console.log('Salário bruto = R$ ' + salary);
+console.log('Pensão = R$' + pens);
 console.log('Dependentes = ' + deps);
-console.log('Pensões = ' + pens);
 console.log('');
 
 console.log('--- OUTPUT ---');
