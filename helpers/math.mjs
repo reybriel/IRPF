@@ -5,3 +5,7 @@ export function round(num) {
 export function min(num1, num2) {
   return Math.min(num1, num2);
 }
+
+export function percentage(value, perc) {
+  return value * perc / 100;
+}

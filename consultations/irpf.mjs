@@ -1,13 +1,20 @@
-import { TierWithDeduction } from "../types/tier_with_deduction.mjs";
-import { round } from "../helpers/math.mjs";
+import { round, percentage } from "../helpers/math.mjs";
+
+class Tier {
+  constructor(value, perc, deduc) {
+    this.value = value;
+    this.perc = perc;
+    this.deduc = deduc;
+  }
+}
 
 export class IRPFConsultation {
   static TIERS = [
-    new TierWithDeduction(0.00, 0.0, 0.00),
-    new TierWithDeduction(1903.99, 7.5, 142.80),
-    new TierWithDeduction(2826.66, 15.0, 354.80),
-    new TierWithDeduction(3751.06, 22.5, 636.13),
-    new TierWithDeduction(4664.69, 27.5, 869.36)
+    new Tier(0.00, 0.0, 0.00),
+    new Tier(1903.99, 7.5, 142.80),
+    new Tier(2826.66, 15.0, 354.80),
+    new Tier(3751.06, 22.5, 636.13),
+    new Tier(4664.69, 27.5, 869.36)
   ];
 
   constructor(base) {
@@ -24,6 +31,6 @@ export class IRPFConsultation {
       return this.base >= tier.value && this.base < next;
     });
 
-    return round(tier.calc(this.base));
+    return round(percentage(this.base, tier.perc) - tier.deduc);
   }
 }

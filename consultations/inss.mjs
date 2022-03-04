@@ -1,5 +1,11 @@
-import { Tier } from "../types/tier.mjs";
-import { round, min } from "../helpers/math.mjs";
+import { round, min, percentage } from "../helpers/math.mjs";
+
+class Tier {
+  constructor(value, perc) {
+    this.value = value;
+    this.perc = perc;
+  }
+}
 
 export class INSSConsultation {
   static TIERS = [
@@ -23,7 +29,7 @@ export class INSSConsultation {
       if (this.salary < prev) return 0;
 
       const base = min(tier.value, this.salary);
-      return tier.calc(base - prev);
+      return percentage(base - prev, tier.perc);
     };
 
     const result = INSSConsultation.TIERS
