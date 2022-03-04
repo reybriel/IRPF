@@ -1,10 +1,6 @@
-import { Tier, TierWithDeduction } from './tiers.mjs';
-
-// Helpers
-
-function round(num) {
-  return Math.round((num + Number.EPSILON) * 100) / 100;
-}
+import { Tier } from './types/tier.mjs';
+import { TierWithDeduction } from './types/tier_with_deduction.mjs';
+import { round, min } from './helpers/math.mjs';
 
 // Consultations
 
@@ -29,7 +25,7 @@ class INSSConsultation {
 
       if (this.salary < prev) return 0;
 
-      const base = Math.min(tier.value, this.salary);
+      const base = min(tier.value, this.salary);
       return tier.calc(base - prev);
     };
 
