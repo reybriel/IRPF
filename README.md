@@ -9,13 +9,13 @@ Para ser capaz que rodar o script, é necessário ter o `node` instalado na máq
 Utilizando `node`, execute:
 
 ```bash
-node irpf.js <salário bruto> <quantidade de dependentes> <quantidade de pensões>
+node main.mjs <salário bruto> <quantidade de dependentes> <valor das pensões>
 ```
 
 ### Exemplo
 
 ```bash
-> node irpf.js 2500 1 0
+> node main.mjs 2500 1 0
 --- INPUT ----
 Salário bruto = R$ 2500
 Dependentes = 1
