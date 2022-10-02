@@ -2,25 +2,13 @@ import { INSSConsultation } from "./consultations/inss.mjs";
 import { BaseConsultation } from "./consultations/base.mjs";
 import { IRPFConsultation } from "./consultations/irpf.mjs";
 import { SalaryConsultation } from "./consultations/salary.mjs";
+import { validate } from "./commands/validator.mjs";
+
+validate(process.argv, process.exit);
 
 const salary = process.argv[2];
 const deps = process.argv[3];
 const pens = process.argv[4];
-
-if (isNaN(salary)) {
-  console.log('The first argument has to be a number.');
-  process.exit(1);
-}
-
-if (isNaN(deps)) {
-  console.log('The second argument has to be a number.');
-  process.exit(1);
-}
-
-if (isNaN(pens)) {
-  console.log('The third argument has to be a number.');
-  process.exit(1);
-}
 
 const inss = (new INSSConsultation(salary)).consult();
 const base = (new BaseConsultation(salary, inss, deps, pens)).consult();
