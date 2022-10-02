@@ -17,8 +17,8 @@ const balance = (new SalaryConsultation(salary, inss, irpf)).consult();
 
 console.log('--- INPUT ----');
 console.log('Salário bruto = R$ ' + salary);
-console.log('Pensão = R$ ' + pens);
 console.log('Dependentes = ' + deps);
+console.log('Pensão = R$ ' + pens);
 console.log('');
 
 console.log('--- OUTPUT ---');
