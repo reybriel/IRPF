@@ -9,10 +9,10 @@ class Tier {
 
 export class INSSConsultation {
   static TIERS = [
-    new Tier(1212.00, 7.5),
-    new Tier(2427.35, 9.0),
-    new Tier(3641.03, 12.0),
-    new Tier(7087.22, 14.0)
+    new Tier(1412.00,  7.5),
+    new Tier(2666.68,  9.0),
+    new Tier(4000.03, 12.0),
+    new Tier(7786.02, 14.0)
   ];
 
   constructor(salary) {
